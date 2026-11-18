@@ -1,0 +1,1131 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Autos Colombia S.A. - Gestión de Pagos y Mensualidades</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      background-color: #0B1120;
+      color: #F1F5F9;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      line-height: 1.5;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    /* BARRA SUPERIOR */
+    .navbar {
+      background-color: #0F172A;
+      border-bottom: 1px solid #1E293B;
+      padding: 0 32px;
+      height: 68px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 40;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #1D4ED8, #3B82F6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #FFFFFF;
+      font-size: 18px;
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.35);
+    }
+
+    .brand-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: #FFFFFF;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .brand-tag {
+      font-size: 11px;
+      background: rgba(37, 99, 235, 0.25);
+      color: #60A5FA;
+      border: 1px solid rgba(59, 130, 246, 0.4);
+      padding: 2px 6px;
+      border-radius: 6px;
+    }
+
+    .brand-sub {
+      font-size: 12px;
+      color: #94A3B8;
+    }
+
+    .nav-menu {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background-color: #0B1120;
+      padding: 5px;
+      border-radius: 12px;
+      border: 1px solid #1E293B;
+    }
+
+    .nav-item {
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 500;
+      color: #94A3B8;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .nav-item.active {
+      background-color: #2563EB;
+      color: #FFFFFF;
+      font-weight: 600;
+    }
+
+    .user-profile {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background-color: #334155;
+      border: 2px solid #2563EB;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 700;
+      color: #FFFFFF;
+    }
+
+    .user-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: #F8FAFC;
+    }
+
+    .user-role {
+      font-size: 11px;
+      color: #94A3B8;
+    }
+
+    /* CONTENEDOR PRINCIPAL */
+    .container {
+      max-width: 1260px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    /* ENCABEZADO DEL MÓDULO */
+    .module-banner {
+      background: rgba(30, 41, 59, 0.75);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-top: 4px solid #2563EB;
+      border-radius: 16px;
+      padding: 22px 24px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .module-title-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .module-title {
+      font-size: 22px;
+      font-weight: 700;
+      color: #FFFFFF;
+    }
+
+    .badge-active {
+      background: rgba(16, 185, 129, 0.12);
+      color: #34D399;
+      border: 1px solid rgba(16, 185, 129, 0.35);
+      font-size: 12px;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 999px;
+    }
+
+    .module-desc {
+      font-size: 13px;
+      color: #94A3B8;
+      margin-top: 4px;
+    }
+
+    .tabs-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      background-color: #0B1120;
+      padding: 6px;
+      border-radius: 12px;
+      border: 1px solid #1E293B;
+    }
+
+    .tab-btn {
+      border: none;
+      background: transparent;
+      color: #94A3B8;
+      padding: 9px 16px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: 0.2s;
+    }
+
+    .tab-btn:hover {
+      color: #FFFFFF;
+    }
+
+    .tab-btn.active {
+      background-color: #2563EB;
+      color: #FFFFFF;
+    }
+
+    /* GRID Y TARJETAS */
+    .grid-caja {
+      display: grid;
+      grid-template-columns: 1.35fr 1fr;
+      gap: 24px;
+    }
+
+    @media (max-width: 920px) {
+      .grid-caja {
+        grid-template-columns: 1fr;
+      }
+      .nav-menu {
+        display: none;
+      }
+    }
+
+    .card {
+      background: linear-gradient(145deg, rgba(30, 41, 59, 0.88), rgba(15, 23, 42, 0.96));
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 16px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #1E293B;
+      padding-bottom: 12px;
+    }
+
+    .card-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #FFFFFF;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .label-upper {
+      display: block;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: #CBD5E1;
+      margin-bottom: 6px;
+    }
+
+    .search-row {
+      display: flex;
+      gap: 10px;
+    }
+
+    .input-box {
+      width: 100%;
+      background-color: #0B1120;
+      border: 1px solid #334155;
+      border-radius: 10px;
+      padding: 10px 14px;
+      color: #FFFFFF;
+      font-size: 14px;
+      font-weight: 600;
+      outline: none;
+    }
+
+    .input-mono {
+      font-family: 'Consolas', 'Courier New', monospace;
+      font-size: 15px;
+      font-weight: 700;
+    }
+
+    .btn-primary {
+      background-color: #2563EB;
+      color: #FFFFFF;
+      border: none;
+      border-radius: 10px;
+      padding: 10px 18px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-primary:hover {
+      background-color: #1D4ED8;
+    }
+
+    .sim-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .btn-sim {
+      font-size: 12px;
+      padding: 6px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 500;
+      border: 1px solid #334155;
+      background-color: #1E293B;
+      color: #E2E8F0;
+    }
+
+    .btn-sim.green {
+      background-color: rgba(6, 78, 59, 0.5);
+      border-color: rgba(16, 185, 129, 0.4);
+      color: #6EE7B7;
+    }
+
+    .btn-sim.amber {
+      background-color: rgba(120, 53, 15, 0.5);
+      border-color: rgba(245, 158, 11, 0.4);
+      color: #FCD34D;
+    }
+
+    /* FICHA VEHÍCULO Y LIQUIDACIÓN */
+    .info-panel {
+      background-color: rgba(11, 17, 32, 0.85);
+      border: 1px solid #1E293B;
+      border-radius: 12px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .vehicle-top {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .vehicle-main {
+      font-family: 'Consolas', monospace;
+      font-size: 17px;
+      font-weight: 700;
+      color: #FFFFFF;
+    }
+
+    .pill-status {
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      background-color: #1E293B;
+      color: #CBD5E1;
+      border: 1px solid #334155;
+    }
+
+    .pill-status.active-plan {
+      background-color: rgba(16, 185, 129, 0.15);
+      color: #34D399;
+      border-color: rgba(16, 185, 129, 0.4);
+    }
+
+    .pill-status.lost-ticket {
+      background-color: rgba(245, 158, 11, 0.15);
+      color: #FBBF24;
+      border-color: rgba(245, 158, 11, 0.4);
+    }
+
+    .time-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      border-top: 1px solid #1E293B;
+      padding-top: 12px;
+      font-size: 12px;
+    }
+
+    .time-grid span {
+      display: block;
+      color: #94A3B8;
+    }
+
+    .time-grid strong {
+      font-size: 14px;
+      color: #F8FAFC;
+    }
+
+    .breakdown-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 14px;
+      color: #CBD5E1;
+    }
+
+    .breakdown-row.surcharge {
+      color: #FBBF24;
+    }
+
+    .total-row {
+      border-top: 1px solid #1E293B;
+      padding-top: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: 700;
+      font-size: 15px;
+      color: #FFFFFF;
+    }
+
+    .total-amount {
+      font-family: 'Consolas', monospace;
+      font-size: 24px;
+      font-weight: 800;
+      color: #34D399;
+    }
+
+    /* MÉTODOS DE PAGO Y TALANQUERA */
+    .methods-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    .method-btn {
+      background-color: #0B1120;
+      border: 1px solid #334155;
+      color: #CBD5E1;
+      border-radius: 10px;
+      padding: 12px 8px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .method-btn.selected {
+      background-color: rgba(37, 99, 235, 0.2);
+      border: 2px solid #2563EB;
+      color: #FFFFFF;
+    }
+
+    .cash-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .change-box {
+      background-color: rgba(11, 17, 32, 0.7);
+      border: 1px solid #1E293B;
+      border-radius: 10px;
+      padding: 10px 14px;
+      font-family: 'Consolas', monospace;
+      font-size: 15px;
+      font-weight: 700;
+      color: #34D399;
+    }
+
+    .barrier-box {
+      background-color: #0B1120;
+      border: 1px solid #1E293B;
+      border-radius: 12px;
+      padding: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .barrier-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .barrier-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      background: rgba(244, 63, 94, 0.12);
+      border: 1px solid rgba(244, 63, 94, 0.35);
+      color: #FB7185;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .barrier-icon.open {
+      background: rgba(16, 185, 129, 0.15);
+      border-color: rgba(16, 185, 129, 0.4);
+      color: #34D399;
+    }
+
+    .btn-confirm {
+      width: 100%;
+      background: linear-gradient(90deg, #059669, #10B981);
+      color: #FFFFFF;
+      border: none;
+      border-radius: 12px;
+      padding: 14px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-top: auto;
+      box-shadow: 0 6px 16px rgba(16, 185, 129, 0.25);
+    }
+
+    /* TABLA MENSUALIDADES */
+    .table-wrap {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 13px;
+    }
+
+    th {
+      padding: 12px 14px;
+      border-bottom: 1px solid #1E293B;
+      color: #94A3B8;
+      text-transform: uppercase;
+      font-size: 11px;
+      letter-spacing: 0.04em;
+    }
+
+    td {
+      padding: 14px;
+      border-bottom: 1px solid rgba(30, 41, 59, 0.7);
+      color: #E2E8F0;
+    }
+
+    .badge-ok {
+      background: rgba(16, 185, 129, 0.12);
+      color: #34D399;
+      border: 1px solid rgba(16, 185, 129, 0.35);
+      padding: 3px 10px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .badge-expired {
+      background: rgba(244, 63, 94, 0.12);
+      color: #FB7185;
+      border: 1px solid rgba(244, 63, 94, 0.35);
+      padding: 3px 10px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    /* TARJETAS CIERRE DE CAJA Y TARIFAS */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+
+    .tariffs-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    @media (max-width: 850px) {
+      .stats-grid, .tariffs-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .stat-card {
+      background: rgba(15, 23, 42, 0.92);
+      border: 1px solid #1E293B;
+      border-radius: 14px;
+      padding: 18px;
+    }
+
+    .stat-val {
+      font-family: 'Consolas', monospace;
+      font-size: 24px;
+      font-weight: 800;
+      margin: 6px 0;
+    }
+
+    /* MODALES */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background-color: rgba(2, 6, 23, 0.82);
+      backdrop-filter: blur(4px);
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+
+    .receipt-modal {
+      background-color: #FFFFFF;
+      color: #0F172A;
+      border-radius: 16px;
+      width: 100%;
+      max-width: 370px;
+      padding: 24px;
+      font-family: 'Consolas', 'Courier New', monospace;
+      font-size: 12px;
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.65);
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .receipt-head {
+      text-align: center;
+      border-bottom: 1px dashed #94A3B8;
+      padding-bottom: 12px;
+    }
+
+    .receipt-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 6px;
+    }
+
+    .receipt-total {
+      border-top: 1px dashed #94A3B8;
+      border-bottom: 1px dashed #94A3B8;
+      padding: 10px 0;
+      display: flex;
+      justify-content: space-between;
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .receipt-ok {
+      background-color: #ECFDF5;
+      border: 1px solid #A7F3D0;
+      color: #065F46;
+      padding: 8px;
+      border-radius: 8px;
+      text-align: center;
+      font-family: 'Segoe UI', sans-serif;
+      font-weight: 600;
+    }
+
+    .dark-modal {
+      background-color: #0F172A;
+      border: 1px solid #334155;
+      border-radius: 16px;
+      width: 100%;
+      max-width: 440px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- BARRA SUPERIOR -->
+  <header class="navbar">
+    <div class="brand">
+      <div class="brand-icon"><i class="fa-solid fa-car-side"></i></div>
+      <div>
+        <div class="brand-title">Autos Colombia <span class="brand-tag">S.A.</span></div>
+        <div class="brand-sub">Sistema de Gestión de Parqueadero</div>
+      </div>
+    </div>
+
+    <nav class="nav-menu">
+      <div class="nav-item"><i class="fa-solid fa-square-parking"></i> Celdas</div>
+      <div class="nav-item"><i class="fa-solid fa-users"></i> Usuarios</div>
+      <div class="nav-item active"><i class="fa-solid fa-cash-register"></i> Pagos y Mensualidades</div>
+    </nav>
+
+    <div class="user-profile">
+      <div class="avatar">CP</div>
+      <div>
+        <div class="user-name">Carlos Pérez</div>
+        <div class="user-role">Administrador</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- CONTENIDO PRINCIPAL -->
+  <main class="container">
+
+    <!-- BANNER DEL MÓDULO Y PESTAÑAS -->
+    <section class="module-banner">
+      <div>
+        <div class="module-title-row">
+          <h2 class="module-title">Módulo de Gestión de Pagos</h2>
+          <span class="badge-active">Iteración 3 • Activo</span>
+        </div>
+        <p class="module-desc">Control de mensualidades, liquidación de salidas, recaudo y emisión de comprobantes</p>
+      </div>
+
+      <div class="tabs-bar">
+        <button id="btn-tab-caja" class="tab-btn active" onclick="showTab('caja')">
+          <i class="fa-solid fa-receipt"></i> 1. Caja y Salida
+        </button>
+        <button id="btn-tab-mensualidades" class="tab-btn" onclick="showTab('mensualidades')">
+          <i class="fa-solid fa-calendar-check"></i> 2. Mensualidades
+        </button>
+        <button id="btn-tab-reportes" class="tab-btn" onclick="showTab('reportes')">
+          <i class="fa-solid fa-chart-line"></i> 3. Tarifas y Cierre
+        </button>
+      </div>
+    </section>
+
+    <!-- VISTA 1: CAJA Y SALIDA -->
+    <section id="tab-caja" class="grid-caja">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title"><i class="fa-solid fa-magnifying-glass" style="color:#60A5FA;"></i> Validación de Vehículo y Liquidación</h3>
+          <span style="font-size:12px; color:#94A3B8;">Horario: 6:00 AM - 10:00 PM</span>
+        </div>
+
+        <div>
+          <label class="label-upper">Buscar por Placa o Número de Ticket</label>
+          <div class="search-row">
+            <input id="input-placa" class="input-box input-mono" type="text" value="HSK-892" />
+            <button class="btn-primary" onclick="cargarEscenario('ocasional')">Consultar</button>
+          </div>
+          <div class="sim-buttons">
+            <button class="btn-sim" onclick="cargarEscenario('ocasional')">Simular Ocasional + Nocturno</button>
+            <button class="btn-sim green" onclick="cargarEscenario('mensualidad')">Simular Mensualidad Activa ($0)</button>
+            <button class="btn-sim amber" onclick="cargarEscenario('perdido')">Simular Ticket Perdido (17h)</button>
+          </div>
+        </div>
+
+        <div class="info-panel">
+          <div class="vehicle-top">
+            <div>
+              <span style="font-size:12px; color:#94A3B8;">Vehículo / Celda Asignada</span>
+              <div id="res-vehiculo" class="vehicle-main">HSK-892 • Automóvil (Celda A-102)</div>
+            </div>
+            <span id="badge-mensualidad" class="pill-status">Sin Mensualidad (Cobro Ocasional)</span>
+          </div>
+          <div class="time-grid">
+            <div><span>Hora Ingreso</span><strong id="res-entrada">06:30 PM</strong></div>
+            <div><span>Hora Salida</span><strong id="res-salida">10:30 PM</strong></div>
+            <div><span>Permanencia</span><strong id="res-tiempo" style="color:#60A5FA;">4 horas</strong></div>
+          </div>
+        </div>
+
+        <div class="info-panel">
+          <div class="breakdown-row">
+            <span id="lbl-concepto">Tarifa Fraccionada (4h × $8.000 COP)</span>
+            <span id="val-subtotal" class="input-mono">$32.000</span>
+          </div>
+          <div class="breakdown-row surcharge">
+            <span id="lbl-recargo">Recargo Nocturno (Salida posterior a 10:00 PM)</span>
+            <span id="val-recargo" class="input-mono">$15.000</span>
+          </div>
+          <div class="total-row">
+            <span>TOTAL A PAGAR</span>
+            <span id="val-total" class="total-amount">$47.000 COP</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title"><i class="fa-solid fa-wallet" style="color:#34D399;"></i> Procesar Recaudo</h3>
+        </div>
+
+        <div>
+          <label class="label-upper">Método de Pago</label>
+          <div class="methods-grid">
+            <button type="button" class="method-btn selected" onclick="selectMethod(this, 'Efectivo')">
+              <i class="fa-solid fa-money-bill-wave" style="color:#34D399; font-size:16px;"></i> Efectivo
+            </button>
+            <button type="button" class="method-btn" onclick="selectMethod(this, 'Transferencia / QR')">
+              <i class="fa-solid fa-qrcode" style="color:#60A5FA; font-size:16px;"></i> Transf. / QR
+            </button>
+            <button type="button" class="method-btn" onclick="selectMethod(this, 'Tarjeta Débito/Crédito')">
+              <i class="fa-solid fa-credit-card" style="color:#FBBF24; font-size:16px;"></i> Tarjeta
+            </button>
+          </div>
+        </div>
+
+        <div class="cash-grid">
+          <div>
+            <label class="label-upper">Monto Recibido</label>
+            <input id="input-recibido" class="input-box input-mono" type="number" value="50000" oninput="calcularCambio()" />
+          </div>
+          <div>
+            <label class="label-upper">Cambio a Devolver</label>
+            <div id="val-cambio" class="change-box">$3.000 COP</div>
+          </div>
+        </div>
+
+        <div class="barrier-box">
+          <div class="barrier-left">
+            <div id="talanquera-icon" class="barrier-icon"><i class="fa-solid fa-road-barrier"></i></div>
+            <div>
+              <div style="font-size:12px; color:#94A3B8;">Barrera de Salida</div>
+              <div id="talanquera-status" style="font-size:12px; font-weight:700; color:#FB7185;">CERRADA (Pendiente de Pago)</div>
+            </div>
+          </div>
+          <span style="font-size:11px; color:#64748B; font-family:monospace;">ID OP: #01</span>
+        </div>
+
+        <button class="btn-confirm" onclick="emitirComprobante()">
+          <i class="fa-solid fa-print"></i> Confirmar Pago, Emitir Recibo y Abrir Talanquera
+        </button>
+      </div>
+    </section>
+
+    <!-- VISTA 2: MENSUALIDADES -->
+    <section id="tab-mensualidades" class="card hidden">
+      <div class="card-header">
+        <div>
+          <h3 class="card-title">Clientes Afiliados por Mensualidad</h3>
+          <p style="font-size:12px; color:#94A3B8; margin-top:2px;">Planes mensuales (30 días calendario) para Automóviles y SUVs</p>
+        </div>
+        <button class="btn-primary" onclick="document.getElementById('modal-mensualidad').classList.remove('hidden')">
+          <i class="fa-solid fa-plus"></i> Nueva Mensualidad / Renovar
+        </button>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Placa</th>
+              <th>Propietario</th>
+              <th>Tipo Vehículo</th>
+              <th>Fecha Inicio</th>
+              <th>Vencimiento</th>
+              <th>Tarifa Pagada</th>
+              <th>Estado</th>
+              <th style="text-align:right;">Acción</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="input-mono" style="color:#FFFFFF;">ABC-123</td>
+              <td>Mariana Agudelo</td>
+              <td>Automóvil</td>
+              <td style="color:#94A3B8;">01/11/2026</td>
+              <td>01/12/2026</td>
+              <td class="input-mono" style="color:#34D399;">$180.000</td>
+              <td><span class="badge-ok">ACTIVA</span></td>
+              <td style="text-align:right;"><button class="btn-sim">Ver Recibo</button></td>
+            </tr>
+            <tr>
+              <td class="input-mono" style="color:#FFFFFF;">KLY-104</td>
+              <td>Juan Francisco Becerra</td>
+              <td>SUV</td>
+              <td style="color:#94A3B8;">05/11/2026</td>
+              <td>05/12/2026</td>
+              <td class="input-mono" style="color:#34D399;">$240.000</td>
+              <td><span class="badge-ok">ACTIVA</span></td>
+              <td style="text-align:right;"><button class="btn-sim">Ver Recibo</button></td>
+            </tr>
+            <tr>
+              <td class="input-mono" style="color:#FFFFFF;">FJZ-410</td>
+              <td>Andrés Gómez</td>
+              <td>Automóvil</td>
+              <td style="color:#94A3B8;">10/10/2026</td>
+              <td style="color:#FB7185; font-weight:600;">10/11/2026</td>
+              <td class="input-mono" style="color:#94A3B8;">$180.000</td>
+              <td><span class="badge-expired">VENCIDA (MORA)</span></td>
+              <td style="text-align:right;">
+                <button class="btn-primary" style="padding:6px 12px; font-size:12px;" onclick="document.getElementById('modal-mensualidad').classList.remove('hidden')">Renovar Plan</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- VISTA 3: TARIFAS Y CIERRE -->
+    <section id="tab-reportes" class="hidden" style="display:flex; flex-direction:column; gap:24px;">
+      <div class="stats-grid">
+        <div class="stat-card">
+          <span class="label-upper">Recaudo Efectivo</span>
+          <div class="stat-val" style="color:#34D399;">$420.000</div>
+          <span style="font-size:12px; color:#64748B;">5 transacciones hoy</span>
+        </div>
+        <div class="stat-card">
+          <span class="label-upper">Transferencia / QR</span>
+          <div class="stat-val" style="color:#60A5FA;">$600.000</div>
+          <span style="font-size:12px; color:#64748B;">3 transacciones hoy</span>
+        </div>
+        <div class="stat-card">
+          <span class="label-upper">Tarjeta Débito/Crédito</span>
+          <div class="stat-val" style="color:#FBBF24;">$240.000</div>
+          <span style="font-size:12px; color:#64748B;">2 transacciones hoy</span>
+        </div>
+        <div class="stat-card" style="border-color:rgba(16,185,129,0.4);">
+          <span class="label-upper" style="color:#6EE7B7;">Total Cierre de Caja</span>
+          <div class="stat-val" style="color:#FFFFFF;">$1.260.000</div>
+          <span style="font-size:12px; color:#34D399;">Consolidado 18/11/2026</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <h3 class="card-title">Parametrización de Tarifas Vigentes</h3>
+            <p style="font-size:12px; color:#94A3B8; margin-top:2px;">Acceso exclusivo Administrador (RBAC) • Valores en pesos colombianos (COP)</p>
+          </div>
+          <span style="font-size:12px; background:rgba(245,158,11,0.12); color:#FCD34D; border:1px solid rgba(245,158,11,0.35); padding:4px 12px; border-radius:999px; font-weight:600;">
+            <i class="fa-solid fa-lock"></i> Rol: Administrador
+          </span>
+        </div>
+
+        <div class="tariffs-grid">
+          <div class="info-panel">
+            <label class="label-upper">Mensualidad Automóvil (30 días)</label>
+            <input class="input-box input-mono" type="text" value="$180.000" />
+          </div>
+          <div class="info-panel">
+            <label class="label-upper">Mensualidad SUV (30 días)</label>
+            <input class="input-box input-mono" type="text" value="$240.000" />
+          </div>
+          <div class="info-panel">
+            <label class="label-upper">Hora Ocasional Auto / SUV</label>
+            <input class="input-box input-mono" type="text" value="$8.000 / $12.000" />
+          </div>
+          <div class="info-panel">
+            <label class="label-upper">Recargo Nocturno (Post 10:00 PM)</label>
+            <input class="input-box input-mono" style="color:#FBBF24;" type="text" value="$15.000" />
+          </div>
+          <div class="info-panel">
+            <label class="label-upper">Penalidad Ticket Perdido (17h)</label>
+            <input class="input-box input-mono" style="color:#FB7185;" type="text" value="$136.000" />
+          </div>
+          <div style="display:flex; align-items:flex-end;">
+            <button class="btn-primary" style="width:100%; justify-content:center; padding:14px;">
+              <i class="fa-solid fa-floppy-disk"></i> Guardar Tarifas
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- MODAL COMPROBANTE DE PAGO -->
+  <div id="modal-recibo" class="modal-overlay hidden">
+    <div class="receipt-modal">
+      <div class="receipt-head">
+        <div style="font-size:16px; font-weight:800;">AUTOS COLOMBIA S.A.</div>
+        <div style="color:#64748B;">NIT: 900.458.123-4 • Medellín</div>
+        <div style="margin-top:6px; display:inline-block; background:#D1FAE5; color:#065F46; padding:3px 8px; border-radius:4px; font-weight:700;">
+          COMPROBANTE DE PAGO #00458
+        </div>
+      </div>
+      <div>
+        <div class="receipt-row"><span style="color:#64748B;">Fecha/Hora:</span><strong>18/11/2026 10:30 PM</strong></div>
+        <div class="receipt-row"><span style="color:#64748B;">Placa / Tipo:</span><strong id="rec-placa">HSK-892 (Automóvil)</strong></div>
+        <div class="receipt-row"><span style="color:#64748B;">Concepto:</span><strong id="rec-concepto">Estadía Ocasional + Nocturno</strong></div>
+        <div class="receipt-row"><span style="color:#64748B;">Método Pago:</span><strong id="rec-metodo">Efectivo</strong></div>
+        <div class="receipt-row"><span style="color:#64748B;">Operario ID:</span><strong>OP-01 (Carlos Pérez)</strong></div>
+      </div>
+      <div class="receipt-total">
+        <span>TOTAL PAGADO:</span>
+        <span id="rec-total">$47.000 COP</span>
+      </div>
+      <div class="receipt-ok">
+        <i class="fa-solid fa-circle-check"></i> Señal enviada: Talanquera Abierta
+      </div>
+      <button onclick="document.getElementById('modal-recibo').classList.add('hidden')" style="background:#0F172A; color:#FFFFFF; border:none; border-radius:10px; padding:10px; font-family:'Segoe UI',sans-serif; font-weight:600; cursor:pointer;">
+        Cerrar Comprobante
+      </button>
+    </div>
+  </div>
+
+  <!-- MODAL REGISTRAR / RENOVAR MENSUALIDAD -->
+  <div id="modal-mensualidad" class="modal-overlay hidden">
+    <div class="dark-modal">
+      <div class="card-header">
+        <h3 class="card-title">Registrar / Renovar Mensualidad</h3>
+        <button onclick="document.getElementById('modal-mensualidad').classList.add('hidden')" style="background:none; border:none; color:#94A3B8; font-size:16px; cursor:pointer;">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+      <div>
+        <label class="label-upper">Placa (Solo Automóvil / SUV)</label>
+        <input class="input-box input-mono" type="text" value="FJZ-410" />
+      </div>
+      <div class="cash-grid">
+        <div>
+          <label class="label-upper">Fecha Inicio</label>
+          <input class="input-box" type="text" value="18/11/2026" readonly />
+        </div>
+        <div>
+          <label class="label-upper">Vencimiento (+30 días)</label>
+          <input class="input-box" style="color:#34D399;" type="text" value="18/12/2026" readonly />
+        </div>
+      </div>
+      <div>
+        <label class="label-upper">Plan Mensual y Medio de Pago</label>
+        <select class="input-box">
+          <option>Automóvil ($180.000 COP) - Transferencia / QR</option>
+          <option>SUV ($240.000 COP) - Efectivo</option>
+        </select>
+      </div>
+      <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:6px;">
+        <button class="btn-sim" onclick="document.getElementById('modal-mensualidad').classList.add('hidden')">Cancelar</button>
+        <button class="btn-confirm" style="width:auto; padding:10px 18px;" onclick="document.getElementById('modal-mensualidad').classList.add('hidden'); document.getElementById('modal-recibo').classList.remove('hidden');">
+          Confirmar Pago y Activar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let totalActual = 47000;
+    let metodoActual = 'Efectivo';
+
+    function showTab(tab) {
+      ['caja', 'mensualidades', 'reportes'].forEach(t => {
+        document.getElementById('tab-' + t).classList.add('hidden');
+        document.getElementById('btn-tab-' + t).classList.remove('active');
+      });
+      document.getElementById('tab-' + tab).classList.remove('hidden');
+      document.getElementById('btn-tab-' + tab).classList.add('active');
+    }
+
+    function selectMethod(el, metodo) {
+      metodoActual = metodo;
+      document.querySelectorAll('.method-btn').forEach(b => b.classList.remove('selected'));
+      el.classList.add('selected');
+    }
+
+    function calcularCambio() {
+      const recibido = parseFloat(document.getElementById('input-recibido').value) || 0;
+      const cambio = Math.max(0, recibido - totalActual);
+      document.getElementById('val-cambio').textContent = '$' + cambio.toLocaleString('es-CO') + ' COP';
+    }
+
+    function cargarEscenario(tipo) {
+      const badge = document.getElementById('badge-mensualidad');
+      badge.className = 'pill-status';
+      if (tipo === 'mensualidad') {
+        document.getElementById('input-placa').value = 'ABC-123';
+        document.getElementById('res-vehiculo').textContent = 'ABC-123 • Automóvil (Celda B-201)';
+        badge.classList.add('active-plan');
+        badge.textContent = 'MENSUALIDAD ACTIVA (Vence 01/12/2026)';
+        document.getElementById('lbl-concepto').textContent = 'Plan Mensual Vigente (Exento cobro fracción)';
+        document.getElementById('val-subtotal').textContent = '$0';
+        document.getElementById('val-recargo').textContent = '$0';
+        totalActual = 0;
+        document.getElementById('val-total').textContent = '$0 COP';
+        document.getElementById('input-recibido').value = 0;
+      } else if (tipo === 'perdido') {
+        document.getElementById('input-placa').value = 'MTR-551';
+        document.getElementById('res-vehiculo').textContent = 'MTR-551 • Automóvil (Ticket Extraviado)';
+        badge.classList.add('lost-ticket');
+        badge.textContent = 'PENALIDAD TICKET PERDIDO (17h)';
+        document.getElementById('lbl-concepto').textContent = 'Tarifa Plena Jornada Completa (17h × $8.000)';
+        document.getElementById('val-subtotal').textContent = '$136.000';
+        document.getElementById('val-recargo').textContent = '$0';
+        totalActual = 136000;
+        document.getElementById('val-total').textContent = '$136.000 COP';
+        document.getElementById('input-recibido').value = 140000;
+      } else {
+        document.getElementById('input-placa').value = 'HSK-892';
+        document.getElementById('res-vehiculo').textContent = 'HSK-892 • Automóvil (Celda A-102)';
+        badge.textContent = 'Sin Mensualidad (Cobro Ocasional)';
+        document.getElementById('lbl-concepto').textContent = 'Tarifa Fraccionada (4h × $8.000 COP)';
+        document.getElementById('val-subtotal').textContent = '$32.000';
+        document.getElementById('val-recargo').textContent = '$15.000';
+        totalActual = 47000;
+        document.getElementById('val-total').textContent = '$47.000 COP';
+        document.getElementById('input-recibido').value = 50000;
+      }
+      calcularCambio();
+    }
+
+    function emitirComprobante() {
+      document.getElementById('talanquera-icon').classList.add('open');
+      document.getElementById('talanquera-status').style.color = '#34D399';
+      document.getElementById('talanquera-status').textContent = 'ABIERTA (Señal Enviada)';
+      document.getElementById('rec-placa').textContent = document.getElementById('input-placa').value;
+      document.getElementById('rec-metodo').textContent = metodoActual;
+      document.getElementById('rec-total').textContent = document.getElementById('val-total').textContent;
+      document.getElementById('modal-recibo').classList.remove('hidden');
+    }
+  </script>
+</body>
+</html>
